@@ -2,7 +2,7 @@
 <html lang="sr">
 <head>
     <meta charset="UTF-8">
-    <title>Lapac009-CTRL | Optimizacija</title>
+    <title>Lapac009-CTRL | Real Boost</title>
     <style>
         body {
             background: #020202;
@@ -13,7 +13,6 @@
             align-items: center;
             height: 100vh;
             margin: 0;
-            overflow: hidden;
         }
         .panel {
             background: rgba(255, 255, 255, 0.05);
@@ -21,79 +20,87 @@
             border: 2px solid #00ffff;
             border-radius: 25px;
             padding: 40px;
-            width: 400px;
+            width: 420px;
             text-align: center;
             box-shadow: 0 0 50px rgba(0, 255, 255, 0.2);
         }
         h1 { font-size: 28px; letter-spacing: 4px; margin-bottom: 5px; text-shadow: 0 0 10px #00ffff; }
-        .tag { color: #ff00ff; font-size: 12px; margin-bottom: 30px; font-weight: bold; }
+        .tag { color: #ff00ff; font-size: 12px; margin-bottom: 25px; font-weight: bold; }
         
         #status { 
             background: rgba(0, 0, 0, 0.5);
             border-radius: 10px;
             padding: 15px;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             font-size: 14px;
-            min-height: 40px;
             border: 1px solid rgba(0, 255, 255, 0.1);
         }
 
-        .btn-boost {
+        .btn {
             background: transparent;
             border: 2px solid #00ffff;
             color: #00ffff;
-            padding: 15px 40px;
+            padding: 12px;
             font-weight: bold;
-            border-radius: 10px;
+            border-radius: 8px;
             cursor: pointer;
             width: 100%;
             transition: 0.3s;
             text-transform: uppercase;
+            margin-bottom: 10px;
         }
-        .btn-boost:hover {
-            background: #00ffff;
-            color: #000;
-            box-shadow: 0 0 30px #00ffff;
-        }
+        .btn-boost { border-color: #00ffff; color: #00ffff; }
+        .btn-boost:hover { background: #00ffff; color: #000; box-shadow: 0 0 30px #00ffff; }
+        
+        .btn-download { border-color: #ff00ff; color: #ff00ff; font-size: 12px; }
+        .btn-download:hover { background: #ff00ff; color: #fff; box-shadow: 0 0 20px #ff00ff; }
     </style>
 </head>
 <body>
 
 <div class="panel">
     <h1>LAPAC009-CTRL</h1>
-    <div class="tag">NEXUS OPTIMIZACIJA v1.0</div>
+    <div class="tag">REAL SYSTEM OPTIMIZER v1.0</div>
     
     <div id="status">Sistem spreman za čišćenje i hlađenje...</div>
     
-    <button class="btn-boost" onclick="runLapacBoost()">POKRENI OPTIMIZACIJU</button>
+    <button class="btn btn-boost" onclick="runRealBoost()">AKTIVIRAJ REAL BOOST</button>
+    
+    <a href="https://www.electronjs.org/docs/latest/tutorial/quick-start" target="_blank" style="text-decoration: none;">
+        <button class="btn btn-download">SKINI ELECTRON (SETUP)</button>
+    </a>
     
     <p style="font-size: 10px; margin-top: 20px; opacity: 0.5;">
-        FIX: Uklanja "Not Responding" prozore & hladi laptop.
+        INFO: Skini Electron da bi skripte mogle da upravljaju hardverom.
     </p>
 </div>
 
 <script>
-    function runLapacBoost() {
+    function runRealBoost() {
         const status = document.getElementById('status');
-        status.innerText = "UKLANJAM ERROR REPORTING & HLAĐENJE...";
-        status.style.color = "#ffff00";
         
-        try {
+        // Provera da li se pokreće unutar Electrona
+        if (typeof process !== 'undefined' && process.versions && process.versions.electron) {
+            status.innerText = "IZVRŠAVAM: UKLANJANJE ERROR PROZORA...";
+            status.style.color = "#ffff00";
+            
             const { exec } = require('child_process');
-            // Ova komanda gasi Error Reporting (tvoja slika) i hladi procesor na 90%
+            
+            // PRAVA KOMANDA: Gasi Error Reporting, postavlja High Priority i hladi procesor
             const cmd = `powershell -Command "Set-ItemProperty -Path 'HKCU:\\Software\\Microsoft\\Windows\\Windows Error Reporting' -Name 'Disabled' -Value 1; powercfg -setacvalueindex SCHEME_CURRENT SUB_PROCESSOR PROCTHROTTLEMAX 90; powercfg -setactive SCHEME_CURRENT; Get-Process | ForEach-Object {$_.PriorityClass = 'High'}"`;
             
             exec(cmd, (err) => {
                 if (err) {
-                    status.innerText = "GREŠKA: Pokreni Electron kao Admin!";
+                    status.innerText = "GREŠKA: Pokreni kao Administrator!";
                     status.style.color = "red";
                 } else {
-                    status.innerText = "USPEŠNO! Laptop je sada hladan i brz.";
+                    status.innerText = "REAL BOOST AKTIVAN! (Fiksirano)";
                     status.style.color = "#00ff00";
                 }
             });
-        } catch(e) {
-            status.innerText = "BOOST AKTIVAN (Simulacija - pokreni u Electronu)";
+        } else {
+            status.innerHTML = "PAŽNJA: Ovo je Website mod.<br>Skini Electron iznad da aktiviraš Real Boost!";
+            status.style.color = "#ff00ff";
         }
     }
 </script>
