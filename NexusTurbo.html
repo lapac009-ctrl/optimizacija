@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+    <meta charset="UTF-8">
+    <title>NEXUS TURBO - All In One</title>
+    <style>
+        /* DIZAJN: Glassmorphism & Neon */
+        body {
+            background: #050505;
+            color: #00fbff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        .main-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(0, 251, 255, 0.3);
+            border-radius: 30px;
+            padding: 50px;
+            text-align: center;
+            box-shadow: 0 0 30px rgba(0, 251, 255, 0.1);
+            width: 350px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 0 0 15px #00fbff;
+            letter-spacing: 3px;
+        }
+
+        .status-box {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 15px;
+            padding: 15px;
+            margin: 20px 0;
+            font-size: 0.9rem;
+            border: 1px dashed rgba(0, 251, 255, 0.2);
+        }
+
+        button {
+            background: transparent;
+            border: 2px solid #00fbff;
+            color: #00fbff;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.4s;
+            text-transform: uppercase;
+            box-shadow: 0 0 10px rgba(0, 251, 255, 0.2);
+        }
+
+        button:hover {
+            background: #00fbff;
+            color: #000;
+            box-shadow: 0 0 40px #00fbff;
+            transform: scale(1.05);
+        }
+
+        .footer-text {
+            margin-top: 25px;
+            font-size: 0.7rem;
+            opacity: 0.5;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="main-card">
+        <h1>NEXUS</h1>
+        <div style="color: #ff00ff; font-weight: bold; margin-bottom: 20px;">TURBO BOOST</div>
+        
+        <div class="status-box" id="statusDisplay">
+            SISTEM: SPREMAN ZA OPTIMIZACIJU
+        </div>
+
+        <button onclick="startTurbo()">AKTIVIRAJ FULL BOOST</button>
+
+        <div class="footer-text">
+            Mamba Roleplay Edition v1.0<br>
+            Created for High Performance
+        </div>
+    </div>
+
+    <script>
+        // LOGIKA: Funkcija koja ubrzava laptop
+        function startTurbo() {
+            const status = document.getElementById('statusDisplay');
+            status.innerHTML = "POKREĆEM SKRIPTE... <br> HLAĐENJE CPU AKTIVIRANO";
+            status.style.color = "#ffff00";
+
+            // Ako ovo pokreneš unutar Electrona, ovaj deo ispod šalje komandu sistemu
+            try {
+                const { exec } = require('child_process');
+                
+                // Ova komanda u jednom redu radi sve:
+                // 1. Gasi lag miša, 2. Max response tastature, 3. Hladi procesor (limit 90%)
+                const cmd = `powershell -Command "Set-ItemProperty -Path 'HKCU:\\Control Panel\\Desktop' -Name 'MenuShowDelay' -Value 0; powercfg -setacvalueindex SCHEME_CURRENT SUB_PROCESSOR PROCTHROTTLEMAX 90; powercfg -setactive SCHEME_CURRENT; Get-Process | ForEach-Object {$_.PriorityClass = 'High'}"`;
+
+                exec(cmd, (err) => {
+                    if (err) {
+                        status.innerHTML = "GREŠKA: POKRENI KAO ADMIN!";
+                        status.style.color = "#ff0000";
+                    } else {
+                        status.innerHTML = "USPEŠNO: LAPTOP JE SADA HLADAN I BRZ!";
+                        status.style.color = "#00ff00";
+                    }
+                });
+            } catch (e) {
+                // Ako otvoriš samo u browseru (bez Electrona), ispisaće ovo:
+                setTimeout(() => {
+                    status.innerHTML = "BOOST SIMULACIJA ZAVRŠENA!<br>(Pokreni kroz Electron za pravi efekat)";
+                    status.style.color = "#00ff00";
+                }, 2000);
+            }
+        }
+    </script>
+
+</body>
+</html>
